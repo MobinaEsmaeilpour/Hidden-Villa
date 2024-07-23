@@ -8,6 +8,6 @@ namespace HiddenVilla_Server.Model
         public string RoomName { get; set; }
         public double Price { get; set; }
         public bool IsActive { get; set; }
-        public List<BlazorRommProp> RoomProperties { get; set; }
+        public List<BlazorRoomProp> RoomProperties { get; set; }
     }
 }

@@ -1,81 +1,8 @@
 ﻿@page "/"
 
-@*<h1>Hello, world!</h1>
+<h1>Hello, world!</h1>
 
 Welcome to your new app.
 
-<SurveyPrompt Title="How is Blazor working for you?" />*@
+<SurveyPrompt Title="How is Blazor working for you?" />
 
-<h2 class="bg-light border p-2 ">
-    First Room
-</h2>
-<div></div>
-Room:@Room.RoomName
-<br />
-Price:@Room.Price
-<br />
-
-Price: <input type="number" @bind-value="Room.Price" @bind-value:event="oninput" />
-<br />
-
-Active: <input type="checkbox" @bind-value="Room.IsActive" checked="@(Room.IsActive?"checked":null)" /> 
-<br />
-This Room is :@(Room.IsActive?"Active":"InActive")<br />
-
-<select @bind="SelectedRoomProp">
-    @foreach(var prop in Room.RoomProperties)
-    {
-        <option value="@prop.Name">@prop.Name</option>
-    }
-</select>
-<span>The Room Prop selected is: @SelectedRoomProp</span>
-
-@code{
-    private string SelectedRoomProp = "";
-    List<BlazorRoom> RoomList = new List<BlazorRoom>();
-    BlazorRoom Room = new BlazorRoom()
-    {
-        Id = 1,
-        RoomName = "Villa suite",
-        IsActive = true,
-        Price = 499,
-        RoomProperties = new List<BlazorRommProp>
-        {
-            new BlazorRommProp{Id=1,Name="sq FT",Value="100"},
-            new BlazorRommProp{Id=2,Name="occupancy",Value="3"},
-
-        }
-
-    };
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        RoomList.Add(new BlazorRoom()
-        {
-            Id = 201,
-            RoomName = "Villa suite ON bED rOMM",
-            IsActive = true,
-            Price = 399,
-            RoomProperties = new List<BlazorRommProp>
-            {
-                new BlazorRommProp{Id=1,Name="sq FT",Value="100"},
-                new BlazorRommProp{Id=2,Name="occupancy",Value="3"},
-            }
-     });
-
-
-        RoomList.Add(new BlazorRoom()
-            {
-                Id = 301,
-                RoomName = "Villa suite Two Bed Room",
-                IsActive = true,
-                Price = 699,
-                RoomProperties = new List<BlazorRommProp>
-            {
-                new BlazorRommProp{Id=1,Name="sq FT",Value="150"},
-                new BlazorRommProp{Id=2,Name="occupancy",Value="6"},
-            }
-            });
-    }
-    
-}
