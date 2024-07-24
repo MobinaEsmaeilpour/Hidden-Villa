@@ -1,4 +1,4 @@
-﻿<div class=" bg-light border p-2 col-5 offset-1">
+﻿<div class=" bg-light border p-2 col-5 offset-1" @onclick="(args) => AmenitiesSelectaionChanged(args,Amenities.Name)">
     <h4 class="text-secondary">Amenities - @Amenities.Id</h4>
 
     @Amenities.Name<br />
@@ -9,4 +9,11 @@
 @code {
     [Parameter]
     public BlazorAmenities Amenities { get; set; }
+
+    [Parameter]
+    public EventCallback<string> OnAmenitySlection { get; set; }
+    protected async Task AmenitiesSelectaionChanged(MouseEventArgs eventArgs, string name)
+    {
+        await OnAmenitySlection.InvokeAsync((string)name);
+    }
 }

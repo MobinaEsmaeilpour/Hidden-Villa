@@ -1,6 +1,8 @@
 ﻿<div class="bg-light border p-2 col-5 offset-1">
     <h4 class="text-secondary">Room - @Room.Id</h4>
 
+    <input type="checkbox" @onchange="RoomCheckBoxSelectionChanged" />
+
     @Room.RoomName<br />
     @Room.Price.ToString("c")<br />
     <input type="checkbox" @bind-value="Room.IsActive" checked="@(Room.IsActive?"checked":null)" /> Is Active
@@ -13,9 +15,16 @@
             <p>@roomprop.Name - @roomprop.Value</p>
         }
     }
-    <EdirDeleteButton IsAdmin="true"></EdirDeleteButton>
+    <EdirDeleteButton IsAdmin="false"></EdirDeleteButton>
 </div>
 @code {
     [Parameter]
     public BlazorRoom Room { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> OnRoomChekBoxSlection { get; set; }
+    protected async Task RoomCheckBoxSelectionChanged(ChangeEventArgs e)
+    {
+        await OnRoomChekBoxSlection.InvokeAsync((bool)e.Value);
+    }
 }

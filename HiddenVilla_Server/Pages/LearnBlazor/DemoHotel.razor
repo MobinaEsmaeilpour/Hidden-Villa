@@ -7,10 +7,11 @@
     <div class="row container">
         <div class="col-12">
             <h4 class="text-info">Hotel Room 's</h4>
+            <span>Rooms Selected - @SelectedRoom</span>
         </div>
         @foreach(var room in RoomList)
         {
-            <IndividualRoom Room="@room"></IndividualRoom>
+            <IndividualRoom OnRoomChekBoxSlection="RoomSelectionCounterChanged" Room="@room"></IndividualRoom>
         }
 
     <div class="col-12 mt-4">
@@ -19,13 +20,20 @@
     
         @foreach (var amenity in AmenitiesList)
         {
-        <IndividualAmenities Amenities="@amenity"></IndividualAmenities>
+            <IndividualAmenities OnAmenitySlection="AmenitiesSelectaionChanged" Amenities="@amenity"></IndividualAmenities>
         }
     </div>
+    <div class=" col-12">
+        <p class="text-secondary">Selected Aminity - @SelectedAminity</p>
+    </div>
 </div>
+
 @code{
+    public string SelectedAminity { get; set; } = "";
+    public int SelectedRoom { get; set; } = 0;
     List<BlazorAmenities> AmenitiesList = new List<BlazorAmenities>();
     List<BlazorRoom> RoomList = new List<BlazorRoom>();
+
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -75,8 +83,20 @@
             Name = "Free Brakfast",
             Description = "Enjoy free breakfast at out hotel."
         });
-
-
-        
+    }
+    protected void RoomSelectionCounterChanged(bool isRoomSelected)
+    {
+        if(isRoomSelected)
+        {
+            SelectedRoom++;
+        }
+        else
+        {
+            SelectedRoom--;
+        }
+    }
+    protected void AmenitiesSelectaionChanged(string amenity)
+    {
+        SelectedAminity = amenity;
     }
 }
