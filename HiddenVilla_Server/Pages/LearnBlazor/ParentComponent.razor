@@ -8,8 +8,10 @@
     <ChildContent>Render Fragment From Parent! WooHoo!</ChildContent>
     <DengerChildContent>Danger Content from Render Fragment ! WooHoo!</DengerChildContent>
 </ChildComponent>
-@*<AnotherChildComponent Placeholder="Enter the Room Name From Parent" MaxLength="5"></AnotherChildComponent>*@
-<AnotherChildComponent InputAttributes="InputAttributesFromParent"></AnotherChildComponent>
+@*<AnotherChildComponent Placeholder="Enter the Room Name From Parent" MaxLength="5"></AnotherChildComponent>
+<AnotherChildComponent InputAttributes="InputAttributesFromParent"></AnotherChildComponent>*@
+<AnotherChildComponent placeholder="Placeholder default"></AnotherChildComponent>
+
 <p><b>@messageText</b></p>
 @*<ChildComponent Title="This is psecond child Component">
 </ChildComponent>*@
@@ -18,7 +20,7 @@
     public Dictionary<string, object> InputAttributesFromParent { get; set; } = new Dictionary<string, object>()
     {
         {"required", "required"},
-        {"placeholder", "Enter the Room Name From Parent"},
+        {"placeholder", "Intial Text"},
         {"maxlength", 5}
     };
     private string messageText = "";
