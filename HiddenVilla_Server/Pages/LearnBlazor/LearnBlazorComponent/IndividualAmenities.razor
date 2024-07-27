@@ -3,8 +3,9 @@
 
     @Amenities.Name<br />
     @Amenities.Description<br />
+    RF from Parent - @FirstFragment @SecondFragment
 </div>
-
+ 
 
 @code {
     [Parameter]
@@ -12,6 +13,13 @@
 
     [Parameter]
     public EventCallback<string> OnAmenitySlection { get; set; }
+    
+    [Parameter]
+    public RenderFragment FirstFragment { get; set; }
+
+    [Parameter]
+    public RenderFragment SecondFragment { get; set; }
+
     protected async Task AmenitiesSelectaionChanged(MouseEventArgs eventArgs, string name)
     {
         await OnAmenitySlection.InvokeAsync((string)name);

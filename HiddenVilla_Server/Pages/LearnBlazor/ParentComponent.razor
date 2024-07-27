@@ -2,15 +2,25 @@
 
 <h1 class="text-danger">Parent Child Component</h1>
 
-<ChildComponent OnClickBtnMethod="ShowMessage" Title="This title is passed as parameter from Parent Component">
+@*<ChildComponent OnClickBtnMethod="ShowMessage" Title="This title is passed as parameter from Parent Component">*@
 
-    Render Fragment From Parent! WooHoo!
+<ChildComponent OnClickBtnMethod="ShowMessage"  Title="This title is passed as parameter from Parent Component">
+    <ChildContent>Render Fragment From Parent! WooHoo!</ChildContent>
+    <DengerChildContent>Danger Content from Render Fragment ! WooHoo!</DengerChildContent>
 </ChildComponent>
+@*<AnotherChildComponent Placeholder="Enter the Room Name From Parent" MaxLength="5"></AnotherChildComponent>*@
+<AnotherChildComponent InputAttributes="InputAttributesFromParent"></AnotherChildComponent>
 <p><b>@messageText</b></p>
 @*<ChildComponent Title="This is psecond child Component">
 </ChildComponent>*@
 
 @code {
+    public Dictionary<string, object> InputAttributesFromParent { get; set; } = new Dictionary<string, object>()
+    {
+        {"required", "required"},
+        {"placeholder", "Enter the Room Name From Parent"},
+        {"maxlength", 5}
+    };
     private string messageText = "";
     private void ShowMessage(MouseEventArgs e)
     {
