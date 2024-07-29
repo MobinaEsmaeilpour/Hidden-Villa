@@ -1,5 +1,18 @@
-﻿<h3>GrandChildComponent</h3>
-
+﻿
+<div class="border mt-2">
+    <div class="row">
+        <h4 class="text-primary pl-4 pt-2 col-12">Grand Child Component</h4>
+    </div>
+    <div class="row">
+        <p class="pl-4 ml-2"> This is a message - @MessageForGrandChild </p>
+        <p class="pl-4 ml-2"> Lucy Number - @LucyNumberFormGrandChild </p>
+    </div>
+</div>
 @code {
+    [CascadingParameter(Name = "MessageForGrandChild")]
+    public string MessageForGrandChild { get; set; }
+
+    [CascadingParameter(Name = "GrandParentLucyNumber")]
+    public string LucyNumberFormGrandChild { get; set; }
 
 }

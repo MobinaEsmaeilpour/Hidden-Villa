@@ -1,13 +1,17 @@
 ﻿@page "/ParentComponent"
 
 <h1 class="text-danger">Parent Child Component</h1>
-
-@*<ChildComponent OnClickBtnMethod="ShowMessage" Title="This title is passed as parameter from Parent Component">*@
-
-<ChildComponent OnClickBtnMethod="ShowMessage"  Title="This title is passed as parameter from Parent Component">
-    <ChildContent>Render Fragment From Parent! WooHoo!</ChildContent>
+<CascadingValue Value="@messageForGrandChild" Name="MessageForGrandChild">
+    <CascadingValue Value="@LuckyNumber" Name="GrandParentLucyNumber">
+@*<ChildComponent OnClickBtnMethod="ShowMessage" Title="This title is passed as parameter from Parent Component">
+    <ChildComponent OnClickBtnMethod="ShowMessage"  Title="This title is passed as parameter from Parent Component"
+    MessageForGrandChild="This is a message from Grand Parent" >*@
+    <ChildComponent OnClickBtnMethod="ShowMessage" Title="This title is passed as parameter from Parent Component">
+        @*<ChildContent>Render Fragment From Parent! WooHoo!</ChildContent>*@
     <DengerChildContent>Danger Content from Render Fragment ! WooHoo!</DengerChildContent>
-</ChildComponent>
+    </ChildComponent>
+    </CascadingValue>
+</CascadingValue>
 @*<AnotherChildComponent Placeholder="Enter the Room Name From Parent" MaxLength="5"></AnotherChildComponent>
 <AnotherChildComponent InputAttributes="InputAttributesFromParent"></AnotherChildComponent>*@
 <AnotherChildComponent placeholder="Placeholder default"></AnotherChildComponent>
@@ -17,15 +21,19 @@
 </ChildComponent>*@
 
 @code {
+    public string LuckyNumber { get; set; } = "7";
+    private string messageForGrandChild = "This is a message from Grand Parent";
+    private string messageText = "";
+    private void ShowMessage(MouseEventArgs e)
+    {
+        messageText = "Blazzing text from Parent";
+    }
+
     public Dictionary<string, object> InputAttributesFromParent { get; set; } = new Dictionary<string, object>()
     {
         {"required", "required"},
         {"placeholder", "Intial Text"},
         {"maxlength", 5}
     };
-    private string messageText = "";
-    private void ShowMessage(MouseEventArgs e)
-    {
-        messageText = "Blazzing text from Parent";
-    }
+    
 }
