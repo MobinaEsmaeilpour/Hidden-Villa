@@ -14,6 +14,8 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Business.Repository.IRepositpry;
+using Business.Repository;
 
 
 namespace HiddenVilla_Server
@@ -37,6 +39,7 @@ namespace HiddenVilla_Server
             b => b.MigrationsAssembly("DataAccess")));
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddRazorPages();
+            services.AddScoped<IHotelRoomRepository, HotelRoomsRepository>();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
         }

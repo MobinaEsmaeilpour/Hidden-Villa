@@ -77,6 +77,12 @@ namespace Business.Repository
         {
             try
             {
+                //var w = await _db
+                //    .HotelRooms
+                //    .FirstOrDefaultAsync(x => x.Name.ToLower() == name.ToLower());
+
+               
+                //return new HotelRoomDTO();
                 HotelRoomDTO hotelRoom = _mapper.Map<HotelRoom, HotelRoomDTO>(
                     await _db.HotelRooms.FirstOrDefaultAsync(x => x.Name.ToLower() == name.ToLower()));
                 return hotelRoom;
