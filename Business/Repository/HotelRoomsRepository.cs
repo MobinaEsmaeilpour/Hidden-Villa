@@ -33,7 +33,6 @@ namespace Business.Repository
                 Occupancy = hotelRoomDTO.Occupancy,
                 SqFt = hotelRoomDTO.SqFt,
                 Detail = hotelRoomDTO.Detail,
-                // Map other properties as needed
                 CreatedDate = DateTime.Now,
                 CreatedBy = ""
             };
@@ -41,7 +40,6 @@ namespace Business.Repository
             await _db.SaveChangesAsync();
             
 
-            // Manually map HotelRoom to HotelRoomDTO
             HotelRoomDTO resultDTO = new HotelRoomDTO
             {
                 Id = addHotelRoom.Entity.Id,
@@ -49,7 +47,6 @@ namespace Business.Repository
                 Occupancy = addHotelRoom.Entity.Occupancy,
                 SqFt = addHotelRoom.Entity.SqFt,
                 Detail= addHotelRoom.Entity.Detail,
-                // Map other properties as needed
             };
 
             return resultDTO;
@@ -93,10 +90,10 @@ namespace Business.Repository
         {
             try
             {
-                // Retrieve hotel rooms from the database
+                
                 var hotelRooms =  await _db.HotelRooms.ToListAsync();
 
-                // Convert to DTOs
+                 
                 var hotelRoomDTOs = hotelRooms.Select(hotelroom => new HotelRoomDTO
                 {
                     Id = hotelroom.Id,
