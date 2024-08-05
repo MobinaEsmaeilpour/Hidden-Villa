@@ -13,7 +13,7 @@ namespace Business.Repository.IRepositpry
         public Task<HotelRoomDTO> UpdateHotelRoom(int roomid, HotelRoomDTO hotelRoomDTO);
         public Task<HotelRoomDTO> GetHotelRoom(int roomid);
         public Task<int> DeleteHotelRoom(int roomid);
-        public Task<IEnumerable<HotelRoomDTO>> GetAllHotelRooms(int roomid);
+        public Task<IEnumerable<HotelRoomDTO>> GetAllHotelRooms();
         public Task<HotelRoomDTO> IsRoomUnique(string name);
     }
 }

@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace HiddenVilla_Server.Migrations
+namespace DataAccess.Migrations
 {
-    public partial class CreateDatabase : Migration
+    public partial class AddHotelRoomToDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

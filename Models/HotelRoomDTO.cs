@@ -19,9 +19,5 @@ namespace Models
         public double RegularRate { get; set; }
         public string Detail { get; set; }
         public string SqFt { get; set; }
-        public string CreatedBy { get; set; }
-        public DateTime CreatedDate { get; set; } = DateTime.Now;
-        public string UpdateedBy { get; set; }
-        public DateTime UpdatedDate { get; set; }
     }
 }
