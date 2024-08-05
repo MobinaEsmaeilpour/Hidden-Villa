@@ -8,6 +8,11 @@
 </div>
 
 <div class="row">
+    <button class="btn btn-success" @onclick="TestSuccess">Test Toastr Success</button>
+    <button class="btn btn-danger" @onclick="TestFailure">Test Toastr Failure</button>
+</div>
+
+<div class="row">
     @if(ConfrimResult)
     {
         <p>ConfirmResult has been made!</p>
