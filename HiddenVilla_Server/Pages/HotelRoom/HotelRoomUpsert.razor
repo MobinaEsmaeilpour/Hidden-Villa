@@ -4,7 +4,7 @@
 @using Business.Repository.IRepositpry
 @inject IHotelRoomRepository HotelRoomRepository
 @inject NavigationManager NavigationManager
-
+@inject IJSRuntime JsRuntime
 <div class="row mt-2 mb-5">
 
     <h3 class="card-title text-info mb-3 ml-3">@Title Hotel Room</h3>
@@ -75,22 +75,30 @@
     {
         try
         {
-            var roomDetailsByName = await HotelRoomRepository.IsRoomUnique(HotelRoomModel.Name);
+            var roomDetailsByName = await HotelRoomRepository.IsRoomUnique(HotelRoomModel.Name, HotelRoomModel.Id);
             if (roomDetailsByName != null)
             {
-                
-                Console.WriteLine("Duplicate room found");
+                //there is duplicate room show error
                 return;
             }
 
-            var createdResult = await HotelRoomRepository.CreateHotelRoom(HotelRoomModel);
-            NavigationManager.NavigateTo("hotel-room");
+            if (HotelRoomModel.Id != 0 && Title == "Update")
+            {
+                //update
+            }
+            else
+            {
+                //create
+            }
         }
-        catch (Exception ex)
+        catch(Exception ex)
         {
-             
-            Console.WriteLine($"Error in HandleHotelRoomUpsert: {ex.Message}");
+            //log exception
         }
+
+        var createdResult = await HotelRoomRepository.CreateHotelRoom(HotelRoomModel);
+        NavigationManager.NavigateTo("hotel-room");
+        
     }
 
     // private async Task HandelHotelRoomUpset()

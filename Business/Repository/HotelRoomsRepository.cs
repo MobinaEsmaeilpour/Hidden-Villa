@@ -176,24 +176,45 @@ namespace Business.Repository
         //        return null;
         //    }
         //}
-        public async Task<HotelRoomDTO> IsRoomUnique(string name)
+        public async Task<HotelRoomDTO> IsRoomUnique(string name, int roomId = 0)
         {
             try
             {
-                var hotelRoomEntity = await _db.HotelRooms.FirstOrDefaultAsync(x => x.Name.ToLower() == name.ToLower());
-                if (hotelRoomEntity == null)
+                if (roomId == 0)
                 {
-                    return null;
+                    var hotelRoomEntity = await _db.HotelRooms.FirstOrDefaultAsync(x => x.Name.ToLower() == name.ToLower()
+                    && x.Id!=roomId);
+                    if (hotelRoomEntity == null)
+                    {
+                        return null;
+                    }
+
+                    var hotelRoomDTO = new HotelRoomDTO
+                    {
+                        Id = hotelRoomEntity.Id,
+                        Name = hotelRoomEntity.Name,
+
+                    };
+                    return hotelRoomDTO;
+                }
+                else
+                {
+                    var hotelRoomEntity = await _db.HotelRooms.FirstOrDefaultAsync(x => x.Name.ToLower() == name.ToLower());
+                    if (hotelRoomEntity == null)
+                    {
+                        return null;
+                    }
+
+                    var hotelRoomDTO = new HotelRoomDTO
+                    {
+                        Id = hotelRoomEntity.Id,
+                        Name = hotelRoomEntity.Name,
+
+                    };
+                    return hotelRoomDTO;
                 }
 
-                var hotelRoomDTO = new HotelRoomDTO
-                {
-                    Id = hotelRoomEntity.Id,
-                    Name = hotelRoomEntity.Name,
-                    
-                };
-
-                return hotelRoomDTO;
+                
             }
             catch (Exception ex)
             {
