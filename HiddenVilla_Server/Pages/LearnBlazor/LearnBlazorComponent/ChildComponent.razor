@@ -1,4 +1,5 @@
-﻿<div>
+﻿@inject IJSRuntime JsRuntime
+<div>
     <div class="alert alert-info">@Title</div>
     <div class="alert alert-success">
         @if(DengerChildContent == null)
@@ -37,4 +38,9 @@
 
     @*[Parameter]
     public string MessageForGrandChild { get; set; }*@
+
+    public async Task ShowToasterSuccess()
+    {
+        await JsRuntime.ToasterSuccess("Wohoo! Success is on its way!");
+    }
 }

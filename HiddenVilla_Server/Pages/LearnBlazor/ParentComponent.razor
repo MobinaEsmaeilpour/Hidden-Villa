@@ -6,7 +6,8 @@
 @*<ChildComponent OnClickBtnMethod="ShowMessage" Title="This title is passed as parameter from Parent Component">
     <ChildComponent OnClickBtnMethod="ShowMessage"  Title="This title is passed as parameter from Parent Component"
     MessageForGrandChild="This is a message from Grand Parent" >*@
-    <ChildComponent OnClickBtnMethod="ShowMessage" Title="This title is passed as parameter from Parent Component">
+    <ChildComponent @ref="ChildComp"
+        OnClickBtnMethod="ShowMessage" Title="This title is passed as parameter from Parent Component">
         @*<ChildContent>Render Fragment From Parent! WooHoo!</ChildContent>*@
     <DengerChildContent>Danger Content from Render Fragment ! WooHoo!</DengerChildContent>
     </ChildComponent>
@@ -20,7 +21,11 @@
 @*<ChildComponent Title="This is psecond child Component">
 </ChildComponent>*@
 
+<div class="row">
+    <button class="btn btn-success" @onclick="()=>ChildComp.ShowToasterSuccess()">Show Alert</button>
+</div>
 @code {
+    private ChildComponent ChildComp;
     public string LuckyNumber { get; set; } = "7";
     private string messageForGrandChild = "This is a message from Grand Parent";
     private string messageText = "";
