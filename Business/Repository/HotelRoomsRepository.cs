@@ -20,7 +20,7 @@ namespace Business.Repository
         public HotelRoomsRepository(AppilicationDbContext db, IMapper mapper)
         {
             _mapper = mapper;
-            _db = db;;
+            _db = db; ;
         }
 
         public async Task<HotelRoomDTO> CreateHotelRoom(HotelRoomDTO hotelRoomDTO)
@@ -38,7 +38,7 @@ namespace Business.Repository
             };
             var addHotelRoom = await _db.HotelRooms.AddAsync(hotelRoom);
             await _db.SaveChangesAsync();
-            
+
 
             HotelRoomDTO resultDTO = new HotelRoomDTO
             {
@@ -46,7 +46,7 @@ namespace Business.Repository
                 Name = addHotelRoom.Entity.Name,
                 Occupancy = addHotelRoom.Entity.Occupancy,
                 SqFt = addHotelRoom.Entity.SqFt,
-                Detail= addHotelRoom.Entity.Detail,
+                Detail = addHotelRoom.Entity.Detail,
             };
 
             return resultDTO;
@@ -90,10 +90,10 @@ namespace Business.Repository
         {
             try
             {
-                
-                var hotelRooms =  await _db.HotelRooms.ToListAsync();
 
-                 
+                var hotelRooms = await _db.HotelRooms.ToListAsync();
+
+
                 var hotelRoomDTOs = hotelRooms.Select(hotelroom => new HotelRoomDTO
                 {
                     Id = hotelroom.Id,
@@ -101,7 +101,7 @@ namespace Business.Repository
                     Occupancy = hotelroom.Occupancy,
                     RegularRate = hotelroom.RegularRate,
                     SqFt = hotelroom.SqFt,
-                    Detail= hotelroom.Detail,
+                    Detail = hotelroom.Detail,
                 });
 
                 return hotelRoomDTOs;
@@ -182,23 +182,6 @@ namespace Business.Repository
             {
                 if (roomId == 0)
                 {
-                    var hotelRoomEntity = await _db.HotelRooms.FirstOrDefaultAsync(x => x.Name.ToLower() == name.ToLower()
-                    && x.Id!=roomId);
-                    if (hotelRoomEntity == null)
-                    {
-                        return null;
-                    }
-
-                    var hotelRoomDTO = new HotelRoomDTO
-                    {
-                        Id = hotelRoomEntity.Id,
-                        Name = hotelRoomEntity.Name,
-
-                    };
-                    return hotelRoomDTO;
-                }
-                else
-                {
                     var hotelRoomEntity = await _db.HotelRooms.FirstOrDefaultAsync(x => x.Name.ToLower() == name.ToLower());
                     if (hotelRoomEntity == null)
                     {
@@ -213,8 +196,25 @@ namespace Business.Repository
                     };
                     return hotelRoomDTO;
                 }
+                else
+                {
+                    var hotelRoomEntity = await _db.HotelRooms.FirstOrDefaultAsync(x => x.Name.ToLower() == name.ToLower()
+                    && x.Id != roomId);
+                    if (hotelRoomEntity == null)
+                    {
+                        return null;
+                    }
 
-                
+                    var hotelRoomDTO = new HotelRoomDTO
+                    {
+                        Id = hotelRoomEntity.Id,
+                        Name = hotelRoomEntity.Name,
+
+                    };
+                    return hotelRoomDTO;
+                }
+
+
             }
             catch (Exception ex)
             {
@@ -223,33 +223,71 @@ namespace Business.Repository
             }
         }
 
-
         public async Task<HotelRoomDTO> UpdateHotelRoom(int roomId, HotelRoomDTO hotelRoomDTO)
         {
             try
             {
-                if (roomId == hotelRoomDTO.Id)
+                HotelRoom roomDetails = await _db.HotelRooms.FindAsync(hotelRoomDTO.Id);
+                if (roomDetails != null)
                 {
-                    //Ivalid
-                    HotelRoom roomDetails = await _db.HotelRooms.FindAsync(roomId);
-                    HotelRoom room = _mapper.Map<HotelRoomDTO, HotelRoom>(hotelRoomDTO, roomDetails);
-                    room.UpdateedBy = "";
-                    room.UpdatedDate = DateTime.Now;
-                    var updateedRoom = _db.HotelRooms.Update(room);
+                    roomDetails.Name = hotelRoomDTO.Name;
+                    roomDetails.Occupancy = hotelRoomDTO.Occupancy;
+                    roomDetails.RegularRate = hotelRoomDTO.RegularRate;
+                    roomDetails.Detail = hotelRoomDTO.Detail;
+                    roomDetails.SqFt = hotelRoomDTO.SqFt;
+
+                    _db.HotelRooms.Update(roomDetails);
                     await _db.SaveChangesAsync();
-                    return _mapper.Map<HotelRoom, HotelRoomDTO>(updateedRoom.Entity);
+
+                    return new HotelRoomDTO
+                    {
+                        Id = roomDetails.Id,
+                        Name = roomDetails.Name,
+                        Occupancy = roomDetails.Occupancy,
+                        RegularRate = roomDetails.RegularRate,
+                        Detail = roomDetails.Detail,
+                        SqFt = roomDetails.SqFt
+                    };
                 }
                 else
                 {
-                    //invalid
                     return null;
                 }
+
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 return null;
             }
-           
         }
+
+        //    public async Task<HotelRoomDTO> UpdateHotelRoom(int roomId, HotelRoomDTO hotelRoomDTO)
+        //    {
+        //        try
+        //        {
+        //            if (roomId == hotelRoomDTO.Id)
+        //            {
+        //                //Ivalid
+        //                HotelRoom roomDetails = await _db.HotelRooms.FindAsync(roomId);
+        //                HotelRoom room = _mapper.Map<HotelRoomDTO, HotelRoom>(hotelRoomDTO, roomDetails);
+        //                room.UpdateedBy = "";
+        //                room.UpdatedDate = DateTime.Now;
+        //                var updateedRoom = _db.HotelRooms.Update(room);
+        //                await _db.SaveChangesAsync();
+        //                return _mapper.Map<HotelRoom, HotelRoomDTO>(updateedRoom.Entity);
+        //            }
+        //            else
+        //            {
+        //                //invalid
+        //                return null;
+        //            }
+        //        }
+        //        catch (Exception ex) 
+        //        {
+        //            return null;
+        //        }
+
+        //    }
+        //}
     }
 }

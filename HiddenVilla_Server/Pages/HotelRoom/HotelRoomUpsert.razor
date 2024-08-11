@@ -5,6 +5,7 @@
 @inject IHotelRoomRepository HotelRoomRepository
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JsRuntime
+
 <div class="row mt-2 mb-5">
 
     <h3 class="card-title text-info mb-3 ml-3">@Title Hotel Room</h3>
@@ -40,6 +41,7 @@
                     <div class="form-group">
                         <lable>Details</lable>
                         <InputTextArea @bind-Value="HotelRoomModel.Detail" class="form-control"></InputTextArea>
+                        <InputFile OnChange="HandleImageUpload" multipe></InputFile>
                     </div>
 
                     <div class="form-group">
@@ -63,7 +65,7 @@
         {
             //updating
             Title = "Update";
-            HotelRoomModel = await HotelRoomRepository.GetHotelRoom(Id.Value);
+            HotelRoomModel =  await HotelRoomRepository.GetHotelRoom(Id.Value);
         }
         else
         {
@@ -78,32 +80,38 @@
             var roomDetailsByName = await HotelRoomRepository.IsRoomUnique(HotelRoomModel.Name, HotelRoomModel.Id);
             if (roomDetailsByName != null)
             {
-                //there is duplicate room show error
+                await JsRuntime.ToasterError("Room name already exists.");
                 return;
             }
 
             if (HotelRoomModel.Id != 0 && Title == "Update")
             {
                 //update
+                var updateRoomResualt = await HotelRoomRepository.UpdateHotelRoom(HotelRoomModel.Id, HotelRoomModel);
+                await JsRuntime.ToasterSuccess("Hotel room updated successfuly.");
             }
             else
             {
                 //create
+                var createdResult = await HotelRoomRepository.CreateHotelRoom(HotelRoomModel);
+                await JsRuntime.ToasterSuccess("Hotel room created successfuly.");
             }
+
+
         }
         catch(Exception ex)
         {
-            //log exception
+            // log exception
+
         }
 
-        var createdResult = await HotelRoomRepository.CreateHotelRoom(HotelRoomModel);
+        //var createdResult = await HotelRoomRepository.CreateHotelRoom(HotelRoomModel);
         NavigationManager.NavigateTo("hotel-room");
-        
     }
 
     // private async Task HandelHotelRoomUpset()
     // {
-       
+
     //     var roomDetailsByName = await HotelRoomRepository.IsRoomUnique(HotelRoomModel.Name);
     //     if(roomDetailsByName != null)
     //     {
@@ -113,4 +121,15 @@
     //     var createdResult = await HotelRoomRepository.CreateHotelRoom(HotelRoomModel);
     //     NavigationManager.NavigateTo("hotel-room");
     // }
+    private async Task HandleImageUpload(InputFileChangeEventArgs e)
+    {
+        try
+        {
+            var images = new List<String>();
+        }
+        catch(Exception)
+        {
+            throw;
+        }
+    }
 }

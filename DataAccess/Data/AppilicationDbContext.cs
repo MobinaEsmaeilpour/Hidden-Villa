@@ -11,5 +11,6 @@ namespace DataAccess.Data
         public AppilicationDbContext(DbContextOptions<AppilicationDbContext> options) : base(options)
         { }  
         public DbSet<HotelRoom> HotelRooms { get; set; }
+        public DbSet<HotelRoomImage> HotelRoomImages { get; set; }
     }
 }
