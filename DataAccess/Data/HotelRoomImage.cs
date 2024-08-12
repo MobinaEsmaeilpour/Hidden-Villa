@@ -13,7 +13,7 @@ namespace DataAccess.Data
         public int RoomId { get; set; }
         public string RoomImageUrl { get; set; }
         [ForeignKey("RoomId")]
-        public virtual HotelRoom  HotelRoom{ get; set; }
+        public virtual HotelRoom HotelRoom{ get; set; }
 
     }
 }

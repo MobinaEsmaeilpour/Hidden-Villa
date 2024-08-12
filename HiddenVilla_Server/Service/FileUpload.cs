@@ -55,7 +55,7 @@ namespace HiddenVilla_Server.Service
                     memoryStream.WriteTo(fs);
                 }
 
-                var fullPath = $"RoomTmages/{fileName}";
+                var fullPath = $"RoomImages/{fileName}";
                 return fullPath;
             }
             catch (Exception ex)

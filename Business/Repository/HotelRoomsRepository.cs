@@ -91,7 +91,7 @@ namespace Business.Repository
             try
             {
 
-                var hotelRooms = await _db.HotelRooms.ToListAsync();
+                var hotelRooms = await _db.HotelRooms.Include(x => x.HotelRoomImages).ToListAsync();
 
 
                 var hotelRoomDTOs = hotelRooms.Select(hotelroom => new HotelRoomDTO
@@ -117,7 +117,7 @@ namespace Business.Repository
         {
             try
             {
-                var hotelRoom = await _db.HotelRooms.FirstOrDefaultAsync(x => x.Id == roomId);
+                var hotelRoom = await _db.HotelRooms.Include(x => x.HotelRoomImages).FirstOrDefaultAsync(x => x.Id == roomId);
 
                 if (hotelRoom == null)
                 {
@@ -235,6 +235,8 @@ namespace Business.Repository
                     roomDetails.RegularRate = hotelRoomDTO.RegularRate;
                     roomDetails.Detail = hotelRoomDTO.Detail;
                     roomDetails.SqFt = hotelRoomDTO.SqFt;
+                    roomDetails.CreatedBy = "";
+                    roomDetails.UpdatedDate = DateTime.Now;
 
                     _db.HotelRooms.Update(roomDetails);
                     await _db.SaveChangesAsync();
