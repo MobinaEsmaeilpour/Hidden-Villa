@@ -22,7 +22,6 @@ namespace Business.Repository
             _mapper = mapper;
             _db = db; ;
         }
-
         public async Task<HotelRoomDTO> CreateHotelRoom(HotelRoomDTO hotelRoomDTO)
         {
             // Manually map HotelRoomDTO to HotelRoom
@@ -102,6 +101,7 @@ namespace Business.Repository
                     RegularRate = hotelroom.RegularRate,
                     SqFt = hotelroom.SqFt,
                     Detail = hotelroom.Detail,
+                    ImageUrls = hotelroom.HotelRoomImages.Select(img => img.RoomImageUrl).ToList()
                 });
 
                 return hotelRoomDTOs;
@@ -131,7 +131,8 @@ namespace Business.Repository
                     Occupancy = hotelRoom.Occupancy,
                     RegularRate = hotelRoom.RegularRate,
                     Detail = hotelRoom.Detail,
-                    SqFt = hotelRoom.SqFt
+                    SqFt = hotelRoom.SqFt,
+                    ImageUrls = hotelRoom.HotelRoomImages.Select(img => img.RoomImageUrl).ToList()
                 };
 
                 return hotelRoomDTO;
@@ -228,6 +229,7 @@ namespace Business.Repository
             try
             {
                 HotelRoom roomDetails = await _db.HotelRooms.FindAsync(hotelRoomDTO.Id);
+
                 if (roomDetails != null)
                 {
                     roomDetails.Name = hotelRoomDTO.Name;
@@ -235,8 +237,22 @@ namespace Business.Repository
                     roomDetails.RegularRate = hotelRoomDTO.RegularRate;
                     roomDetails.Detail = hotelRoomDTO.Detail;
                     roomDetails.SqFt = hotelRoomDTO.SqFt;
-                    roomDetails.CreatedBy = "";
                     roomDetails.UpdatedDate = DateTime.Now;
+
+                    if(hotelRoomDTO.ImageUrls != null && hotelRoomDTO.ImageUrls.Any())
+            {
+                        foreach (var imageUrl in hotelRoomDTO.ImageUrls)
+                        {
+                            if (!roomDetails.HotelRoomImages.Any(img => img.RoomImageUrl == imageUrl))
+                            {
+                                roomDetails.HotelRoomImages.Add(new HotelRoomImage
+                                {
+                                    RoomImageUrl = imageUrl,
+                                    RoomId = roomDetails.Id
+                                });
+                            }
+                        }
+                    }
 
                     _db.HotelRooms.Update(roomDetails);
                     await _db.SaveChangesAsync();
@@ -248,7 +264,8 @@ namespace Business.Repository
                         Occupancy = roomDetails.Occupancy,
                         RegularRate = roomDetails.RegularRate,
                         Detail = roomDetails.Detail,
-                        SqFt = roomDetails.SqFt
+                        SqFt = roomDetails.SqFt,
+                        ImageUrls = roomDetails.HotelRoomImages.Select(img => img.RoomImageUrl).ToList()
                     };
                 }
                 else
@@ -262,6 +279,7 @@ namespace Business.Repository
                 return null;
             }
         }
+    }
 
         //    public async Task<HotelRoomDTO> UpdateHotelRoom(int roomId, HotelRoomDTO hotelRoomDTO)
         //    {
@@ -291,5 +309,5 @@ namespace Business.Repository
 
         //    }
         //}
-    }
+    
 }

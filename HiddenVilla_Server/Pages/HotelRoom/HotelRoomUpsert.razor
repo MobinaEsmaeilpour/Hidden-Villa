@@ -111,11 +111,14 @@
                 await JsRuntime.ToasterError("Room name already exists.");
                 return;
             }
-
             if (HotelRoomModel.Id != 0 && Title == "Update")
             {
                 //update
                 var updateRoomResualt = await HotelRoomRepository.UpdateHotelRoom(HotelRoomModel.Id, HotelRoomModel);
+                if(HotelRoomModel.ImageUrls!=null & HotelRoomModel.ImageUrls.Any())
+                {
+                    await AddHotelRoomImage(updateRoomResualt);
+                }
                 await JsRuntime.ToasterSuccess("Hotel room updated successfuly.");
             }
             else
@@ -204,14 +207,18 @@
     {
         foreach(var imageUrl in HotelRoomModel.ImageUrls)
         {
-            //Model of Image
-            RoomImage = new HotelRoomImageDTO()
+            if(HotelRoomModel.HotelRoomImages==null ||  HotelRoomModel.HotelRoomImages.Where(x=>x.RoomImageUrl == imageUrl).Count() == 0)
             {
-                RoomId = roomDetails.Id,
-                RoomImageUrl = imageUrl
-            };
+                //Model of Image
+                RoomImage = new HotelRoomImageDTO()
+                {
+                    RoomId = roomDetails.Id,
+                    RoomImageUrl = imageUrl
+                };  
+            }
             await HotelImagesRepository.CreateHotelRoomImage(RoomImage);
         }
-
+            
+         
     }
 }
