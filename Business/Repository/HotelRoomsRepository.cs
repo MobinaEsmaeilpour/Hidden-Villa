@@ -21,7 +21,7 @@ namespace Business.Repository
         public HotelRoomsRepository(AppilicationDbContext db, IMapper mapper)
         {
             _mapper = mapper;
-            _db = db; ;
+            _db = db; 
         }
         public async Task<HotelRoomDTO> CreateHotelRoom(HotelRoomDTO hotelRoomDTO)
         {
@@ -69,13 +69,14 @@ namespace Business.Repository
             if (roomDetails != null)
             {
                 var allimages = await _db.HotelRoomImages.Where(x => x.RoomId == roomId).ToListAsync();
-                foreach (var image in allimages) 
-                {
-                    if(File.Exists(image.RoomImageUrl))
-                    {
-                        File.Delete(image.RoomImageUrl);
-                    }
-                }
+                // We delete this part of the code because when we delete a room, the photos of that room in the database are not deleted (if we go to the list of rooms in our hotel, where we actually call it, it does not work).
+                //foreach (var image in allimages) 
+                //{
+                //    if(File.Exists(image.RoomImageUrl))
+                //    {
+                //        File.Delete(image.RoomImageUrl);
+                //    }
+                //}
                 _db.HotelRoomImages.RemoveRange(allimages);
                 _db.HotelRooms.Remove(roomDetails);
                 return await _db.SaveChangesAsync();
@@ -143,7 +144,13 @@ namespace Business.Repository
                     RegularRate = hotelRoom.RegularRate,
                     Detail = hotelRoom.Detail,
                     SqFt = hotelRoom.SqFt,
-                    ImageUrls = hotelRoom.HotelRoomImages.Select(img => img.RoomImageUrl).ToList()
+                    ImageUrls = hotelRoom.HotelRoomImages.Select(img => img.RoomImageUrl).ToList(),
+                    HotelRoomImages = hotelRoom.HotelRoomImages.Select(img => new HotelRoomImageDTO
+                    {
+                        Id=roomId,
+                        RoomId = roomId,
+                        RoomImageUrl = img.RoomImageUrl,
+                    }).ToList()
                 };
 
                 return hotelRoomDTO;
@@ -251,7 +258,7 @@ namespace Business.Repository
                     roomDetails.UpdatedDate = DateTime.Now;
 
                     if(hotelRoomDTO.ImageUrls != null && hotelRoomDTO.ImageUrls.Any())
-            {
+                    {
                         foreach (var imageUrl in hotelRoomDTO.ImageUrls)
                         {
                             if (!roomDetails.HotelRoomImages.Any(img => img.RoomImageUrl == imageUrl))
