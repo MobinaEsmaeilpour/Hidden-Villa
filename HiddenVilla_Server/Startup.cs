@@ -18,6 +18,7 @@ using Business.Repository.IRepositpry;
 using Business.Repository;
 using HiddenVilla_Server.Service;
 using HiddenVilla_Server.Service.IService;
+using Microsoft.AspNetCore.Identity;
 
 
 namespace HiddenVilla_Server
@@ -35,10 +36,15 @@ namespace HiddenVilla_Server
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
-        {
+        { 
             services.AddDbContext<AppilicationDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
             b => b.MigrationsAssembly("DataAccess")));
+
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<AppilicationDbContext>().AddDefaultTokenProviders()
+                .AddDefaultUI();
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddRazorPages();
             services.AddScoped<IHotelRoomRepository, HotelRoomsRepository>();
@@ -68,11 +74,15 @@ namespace HiddenVilla_Server
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
+            
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapRazorPages();
+
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });

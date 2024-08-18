@@ -8,6 +8,7 @@
 @inject IJSRuntime JsRuntime
 @inject IFileUpload FileUpload
 
+
 <div class="row mt-2 mb-5">
 
     <h3 class="card-title text-info mb-3 ml-3">@Title Hotel Room</h3>
@@ -124,8 +125,18 @@
     private List<string> DeletedImageNames { get; set; } = new List<string>();
     private bool IsImageUploadProccessStartes { get; set; } = false;
     public BlazoredTextEditor QuillHtml { get; set; } = new BlazoredTextEditor();
+
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthenticationState { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
+        var authenticaionState = await AuthenticationState;
+        if(!authenticaionState.User.Identity.IsAuthenticated)
+        {
+            var uri = new Uri(NavigationManager.Uri);
+            NavigationManager.NavigateTo($"/identity/account/login?returnUrl={uri.LocalPath}");
+        }
         if (Id != null)
         {
             //updating
