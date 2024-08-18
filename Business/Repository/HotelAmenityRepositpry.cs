@@ -48,7 +48,7 @@ namespace Business.Repository
         public async Task<int> DeleteHotelAmenity(int amenityid)
         {
             var amenityDetails = await _db.HotelAmenities.FindAsync(amenityid);
-            if (amenityDetails == null) 
+            if (amenityDetails != null) 
             {
                 _db.HotelAmenities.Remove(amenityDetails);
                 return await _db.SaveChangesAsync();

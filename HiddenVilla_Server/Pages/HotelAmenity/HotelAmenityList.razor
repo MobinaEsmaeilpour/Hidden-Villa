@@ -23,9 +23,7 @@
                     <th>
                         IconStyle
                     </th>
-                    <th>
-
-                    </th>
+                    <th> Action </th>
                 </tr>
             </thead>
             <tbody>
@@ -76,11 +74,23 @@
     {
         IsProcessing = true;
         if (isConfirmed && DeleteamenityId != null)
-        {
-            HotelAmenityDTO hotelRoom = await HotelAmenityRepository.GetHotelAmenity(DeleteamenityId.Value);
-            await HotelAmenityRepository.DeleteHotelAmenity(DeleteamenityId.Value);
-            await JSRuntime.ToasterSuccess("Hotel Amenity Deleted successfully");
-            HotelAmenities = await HotelAmenityRepository.GetAllHotelAmenities();
+        {   
+            try
+            {
+                var result = await HotelAmenityRepository.DeleteHotelAmenity(DeleteamenityId.Value);
+                await JSRuntime.ToasterSuccess("Hotel Amenity Deleted successfully");
+            }
+
+            catch(Exception e)
+            {
+                await JSRuntime.ToasterError(e.Message);
+            }
+            
+             HotelAmenities = await HotelAmenityRepository.GetAllHotelAmenities();
+            // HotelAmenityDTO hotelRoom = await HotelAmenityRepository.GetHotelAmenity(DeleteamenityId.Value);
+            // await HotelAmenityRepository.DeleteHotelAmenity(DeleteamenityId.Value);
+            
+           
         }
         await JSRuntime.InvokeVoidAsync("HideDeleteConfirmationModel");
         IsProcessing = false;
