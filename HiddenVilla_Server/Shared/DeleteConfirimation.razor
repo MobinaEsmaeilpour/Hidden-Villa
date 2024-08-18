@@ -1,0 +1,61 @@
+﻿<div class="modal fade" data-backdrop="static" data-keyboard="false" id="deleteConfirmationModel" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Confirm Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                    @onclick="()=>OnConfirimationChange(false)">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="()=>OnConfirimationChange(false)">
+                    Cancel
+                </button>
+
+                @if (IsProcessStart)
+                {
+                    //If the condition and process are correct, we add, then display
+                    <button type="button" class="btn btn-danger"><i class="fa fa-spin fa-spinner"></i>Processing..</button>
+                }
+                else
+                {
+                    //If it is not true, we display the delete button we have and add a click
+                    <button type="button" class="btn btn-danger" @onclick="()=>OnConfirimationChange(true)">
+                        Delete
+                    </button>
+
+                }
+                
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    public bool IsProcessStart { get; set; } = false;//aya dar hale hazer anjam mishavad ya kheir
+
+    [Parameter]
+    public EventCallback<bool> ConfirimationChanged { get; set; }
+    [Parameter]
+    public bool IsParentComponentProcessing { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        IsProcessStart = IsParentComponentProcessing;
+    }
+    protected async Task OnConfirimationChange(bool value)
+    {
+        if (value)
+        {
+            IsProcessStart = true;
+        }
+        await ConfirimationChanged.InvokeAsync(value);
+    }
+}
