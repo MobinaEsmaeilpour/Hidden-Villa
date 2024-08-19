@@ -8,7 +8,6 @@
 @inject IJSRuntime JsRuntime
 @inject IFileUpload FileUpload
 
-
 <div class="row mt-2 mb-5">
 
     <h3 class="card-title text-info mb-3 ml-3">@Title Hotel Room</h3>
@@ -132,11 +131,12 @@
     protected override async Task OnInitializedAsync()
     {
         var authenticaionState = await AuthenticationState;
-        if(!authenticaionState.User.Identity.IsAuthenticated)
+        if(!authenticaionState.User.IsInRole(Common.SD.Role_Admin))
         {
             var uri = new Uri(NavigationManager.Uri);
             NavigationManager.NavigateTo($"/identity/account/login?returnUrl={uri.LocalPath}");
         }
+    
         if (Id != null)
         {
             //updating
@@ -204,7 +204,7 @@
 
                             var resualt = FileUpload.DeleteFile(imageName);
                             await HotelImagesRepository.DeleteHotelByImageUrl(deletedImageName);
-
+ 
                         }
                     }
 
