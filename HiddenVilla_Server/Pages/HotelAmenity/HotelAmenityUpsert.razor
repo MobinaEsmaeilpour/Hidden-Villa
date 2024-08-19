@@ -5,6 +5,7 @@
 @inject IHotelAmenityRepository HotelAmenityRepository
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JsRuntime
+@attribute [Authorize(Roles = Common.SD.Role_Admin)]
 
 <div class="row mt-2 mb-5">
 

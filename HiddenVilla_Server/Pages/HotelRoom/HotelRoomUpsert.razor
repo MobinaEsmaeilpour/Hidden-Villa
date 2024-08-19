@@ -124,8 +124,19 @@
     private List<string> DeletedImageNames { get; set; } = new List<string>();
     private bool IsImageUploadProccessStartes { get; set; } = false;
     public BlazoredTextEditor QuillHtml { get; set; } = new BlazoredTextEditor();
+
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthenticationState { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
+        var authenticaionState = await AuthenticationState;
+        if(!authenticaionState.User.IsInRole(Common.SD.Role_Admin))
+        {
+            var uri = new Uri(NavigationManager.Uri);
+            NavigationManager.NavigateTo($"/identity/account/login?returnUrl={uri.LocalPath}");
+        }
+    
         if (Id != null)
         {
             //updating
@@ -193,7 +204,7 @@
 
                             var resualt = FileUpload.DeleteFile(imageName);
                             await HotelImagesRepository.DeleteHotelByImageUrl(deletedImageName);
-
+ 
                         }
                     }
 
