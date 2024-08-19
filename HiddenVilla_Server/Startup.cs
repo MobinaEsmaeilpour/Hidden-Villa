@@ -19,6 +19,7 @@ using Business.Repository;
 using HiddenVilla_Server.Service;
 using HiddenVilla_Server.Service.IService;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 
 namespace HiddenVilla_Server
@@ -51,13 +52,14 @@ namespace HiddenVilla_Server
             services.AddScoped<IHotelImageRepository, HotelImagesRepository>();
             services.AddScoped<IHotelAmenityRepository, HotelAmenityRepositpry>();
             services.AddScoped<IFileUpload, FileUpload>();
+            services.AddScoped<IDbInitializer, DbInitializer>();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
             services.AddHttpContextAccessor();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDbInitializer dbInitializer)
         {
             CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
 
@@ -77,7 +79,7 @@ namespace HiddenVilla_Server
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-            
+            dbInitializer.Initalize();
 
             app.UseEndpoints(endpoints =>
             {
