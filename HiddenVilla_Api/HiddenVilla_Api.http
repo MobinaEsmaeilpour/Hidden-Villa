@@ -1,0 +1,6 @@
+@HiddenVilla_Api_HostAddress = http://localhost:5100
+
+GET {{HiddenVilla_Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
