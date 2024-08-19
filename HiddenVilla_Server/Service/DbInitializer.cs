@@ -1,7 +1,10 @@
-﻿using DataAccess.Data;
+﻿using Common;
+using DataAccess.Data;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 
 namespace HiddenVilla_Server.Service
 {
@@ -23,12 +26,30 @@ namespace HiddenVilla_Server.Service
         {
             try
             {
-
+                if(_db.Database.GetPendingMigrations().Count() > 0)//if Count >0 it means There are pending migrations
+                {
+                    _db.Database.Migrate();
+                }
             }
             catch (Exception)
             {
 
             }
+            if (_db.Roles.Any(x => x.Name == SD.Role_Admin)) return;
+            _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin)).GetAwaiter().GetResult();
+            _roleManager.CreateAsync(new IdentityRole(SD.Role_Customer)).GetAwaiter().GetResult();
+            _roleManager.CreateAsync(new IdentityRole(SD.Role_Employee)).GetAwaiter().GetResult();
+
+            _userManager.CreateAsync(new IdentityUser
+            {
+                UserName = "admin@gmail.com",
+                Email = "admin@gmail.com",
+                EmailConfirmed = true
+            }, "Admin123*").GetAwaiter().GetResult();
+
+            IdentityUser user = _db.Users.FirstOrDefault(u => u.Email == "admin@gmail.com");
+            _userManager.AddToRoleAsync(user, SD.Role_Admin).GetAwaiter().GetResult();
+
         }
     }
 }
