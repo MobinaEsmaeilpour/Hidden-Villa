@@ -1,5 +1,9 @@
-﻿using System;
+﻿using CommandLine.Text;
+using NHibernate.Criterion;
+using Swashbuckle.AspNetCore.Annotations;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -13,13 +17,9 @@ namespace Models
         [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }
 
-        //[Required(ErrorMessage = "Email is required")]
-        //[RegularExpression("^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$", ErrorMessage = "Invalid email address")]
-        //public string Email { get; set; }
-
-
         [Required(ErrorMessage = "Email is required")]
-        [RegularExpression("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$", ErrorMessage = "Invalid email address")]
+        [RegularExpression("^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$", ErrorMessage = "Invalid email address")]
+        [DefaultValue("example@email.com")]
         public string Email { get; set; }
 
         public string PhoneNo { get; set; }
