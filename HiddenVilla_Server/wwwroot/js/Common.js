@@ -31,3 +31,15 @@ function ShowDeleteConfirmationModel() {
 function HideDeleteConfirmationModel() {
     $('#deleteConfirmationModel').modal('hide');
 }
+
+
+
+
+function triggerFileUpload() {
+    let fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.onchange = function (event) {
+        let file = event.target.files[0];
+    };
+    fileInput.click();
+}

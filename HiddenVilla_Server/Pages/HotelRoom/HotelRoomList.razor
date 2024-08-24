@@ -1,6 +1,6 @@
 ﻿@page "/hotel-room"
 @using Models 
-@using Business.Repository.IRepositpry
+@using Business.Repository.IRepository
 @inject IHotelRoomRepository HotelRoomRepository
 @inject IJSRuntime JSRuntime
 @inject HiddenVilla_Server.Service.IService.IFileUpload FileUpload
@@ -52,6 +52,7 @@
                         <td colspan="5">No records found</td>
                     </tr>
                 }
+
             </tbody>
         </table>
     </div>

@@ -1,4 +1,4 @@
-﻿using Business.Repository.IRepositpry;
+﻿using Business.Repository.IRepository;
 using DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Models;
@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace Business.Repository
 {
-    public class HotelAmenityRepositpry : IHotelAmenityRepository
+    public class HotelAmenityRepository : IHotelAmenityRepository
     {
         private readonly AppilicationDbContext _db;
 
-        public HotelAmenityRepositpry(AppilicationDbContext db)
+        public HotelAmenityRepository(AppilicationDbContext db)
         {
             _db = db;
         }

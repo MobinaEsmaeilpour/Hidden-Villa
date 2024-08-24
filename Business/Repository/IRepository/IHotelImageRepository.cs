@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Business.Repository.IRepositpry
+namespace Business.Repository.IRepository
 {
     public interface IHotelImageRepository
     {
