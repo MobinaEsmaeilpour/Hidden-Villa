@@ -8,10 +8,14 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Models;
 using NHibernate.Cfg;
+using System.Collections.Generic;
+using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace HiddenVilla_Api.Controllers
 {
@@ -60,7 +64,7 @@ namespace HiddenVilla_Api.Controllers
             {
                 var errors = result.Errors.Select(e => e.Description);
                 return BadRequest(new RegisterationResponseDTO
-                                    { Errors = errors, IsRegisterationSuccessful = false});
+                { Errors = errors, IsRegisterationSuccessful = false });
 
             }
             var roleResult = await _userManager.AddToRoleAsync(user, SD.Role_Customer);
@@ -68,8 +72,8 @@ namespace HiddenVilla_Api.Controllers
             if (!roleResult.Succeeded)
             {
                 var errors = result.Errors.Select(e => e.Description);
-                return BadRequest(new RegisterationResponseDTO 
-                                    { Errors = errors, IsRegisterationSuccessful = false });
+                return BadRequest(new RegisterationResponseDTO
+                { Errors = errors, IsRegisterationSuccessful = false });
             }
             return StatusCode(201);
         }

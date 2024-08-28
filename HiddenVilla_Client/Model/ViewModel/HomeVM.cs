@@ -2,7 +2,7 @@
 
 namespace HiddenVilla_Client.Model.ViewModel
 {
-    public class HoemVM
+    public class HomeVM
     {
         public DateTime startDate { get; set; } = DateTime.Now;
         public DateTime EndDate { get; set; }

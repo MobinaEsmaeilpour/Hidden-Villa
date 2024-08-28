@@ -1,5 +1,5 @@
 ﻿@page "/"
-@using HiddenVilla_Client.Model.ViewModel
+@using Blazored.LocalStorage
 @inject ILocalStorageService localstorage
 @inject IJSRuntime jsRuntime
 @inject NavigationManager navigationManager
@@ -34,7 +34,7 @@
         <div class="col-12 col-md-5  offset-md-1 pl-2  pr-2 pr-md-0">
             <div class="form-group">
                 <label>Check In Date</label>
-                <InputDate min="@DateTime.Now.ToString("dd/MM/yyyy")" @bind-Value="HomeModel.startDate" type="text" class="form-control"/>
+                <InputDate min="@DateTime.Now.ToString("dd/MM/yyyy")" @bind-Value="HomeModel.startDate" type="text" class="form-control" />
             </div>
         </div>
 
@@ -46,7 +46,7 @@
                     {
                         <option value="@i">@i</option>
                     }
-            </select>
+                </select>
             </div>
         </div>
 
@@ -64,7 +64,7 @@
 
 
 @code {
-    public HoemVM HomeModel = new HoemVM(); 
+    public HomeVM HomeModel = new HomeVM();
 
     private async Task SaveInitialDate()
     {
@@ -74,7 +74,7 @@
             await localstorage.SetItemAsync(SD.Local_InitialBooking, HomeModel);
             navigationManager.NavigateTo("hotel/rooms", true);
         }
-        catch(Exception e )
+        catch (Exception e)
         {
             await jsRuntime.ToasterError(e.Message);
         }
