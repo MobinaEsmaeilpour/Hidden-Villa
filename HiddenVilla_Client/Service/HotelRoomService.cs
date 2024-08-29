@@ -18,6 +18,11 @@ namespace HiddenVilla_Client.Service
             _client = client;
         }
 
+        public Task<HotelRoomDTO> GetHotelRoomById(int roomId, string checkInDate, string checkOutDate)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public async Task<IEnumerable<HotelRoomDTO>> GetHotelRooms(string checkInDate, string checkOutDate)
         {
 
