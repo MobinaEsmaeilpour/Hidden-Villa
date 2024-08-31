@@ -22,7 +22,7 @@ namespace HiddenVilla_Api.Controllers
 
         //[Authorize(Roles = SD.Role_Admin)]
         [HttpGet]
-        public async Task<IActionResult> GetHotelRooms()
+        public async Task<IActionResult> GetHotelRooms(string checkInDate = null, string checkOutDate = null)
         {
             //if (string.IsNullOrEmpty(checkInDate) || string.IsNullOrEmpty(checkOutDate))
             //{
@@ -32,7 +32,7 @@ namespace HiddenVilla_Api.Controllers
             //        ErrorMessage = "All parameters need to be supplied"
             //    });
             //}
-            ////check if the dates are in  mm dd yyyy
+            ////check if the dates are in  dd mm yyyy
             //if (!DateTime.TryParseExact(checkInDate, "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dtCheckInDate))
             //{
             //    return BadRequest(new ErrorModel()
@@ -57,41 +57,41 @@ namespace HiddenVilla_Api.Controllers
         [HttpGet("{roomId}")]
         public async Task<IActionResult> GetHotelRoomById(int? roomId, string checkInDate = null, string checkOutDate = null)
         {
-            //if (roomId == null)
-            //{
-            //    return BadRequest(new ErrorModel()
-            //    {
-            //        Title = "",
-            //        ErrorMessage = "Invalid Room Id",
-            //        StatusCode = StatusCodes.Status400BadRequest
-            //    });
-            //}
+            if (roomId == null)
+            {
+                return BadRequest(new ErrorModel()
+                {
+                    Title = "",
+                    ErrorMessage = "Invalid Room Id",
+                    StatusCode = StatusCodes.Status400BadRequest
+                });
+            }
 
-            //if (string.IsNullOrEmpty(checkInDate) || string.IsNullOrEmpty(checkOutDate))
-            //{
-            //    return BadRequest(new ErrorModel()
-            //    {
-            //        StatusCode = StatusCodes.Status400BadRequest,
-            //        ErrorMessage = "All parameters need to be supplied"
-            //    });
-            //}
-            ////check if the dates are in  mm dd yyyy
-            //if (!DateTime.TryParseExact(checkInDate, "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dtCheckInDate))
-            //{
-            //    return BadRequest(new ErrorModel()
-            //    {
-            //        StatusCode = StatusCodes.Status400BadRequest,
-            //        ErrorMessage = "Invalid CheckIn date format. valid format will  MM/dd/yyyy"
-            //    });
-            //}
-            //if (!DateTime.TryParseExact(checkOutDate, "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dtCheckOutDate))
-            //{
-            //    return BadRequest(new ErrorModel()
-            //    {
-            //        StatusCode = StatusCodes.Status400BadRequest,
-            //        ErrorMessage = "Invalid CheckOut date format. valid format will  MM/dd/yyyy"
-            //    });
-            //}
+            if (string.IsNullOrEmpty(checkInDate) || string.IsNullOrEmpty(checkOutDate))
+            {
+                return BadRequest(new ErrorModel()
+                {
+                    StatusCode = StatusCodes.Status400BadRequest,
+                    ErrorMessage = "All parameters need to be supplied"
+                });
+            }
+            //check if the dates are in  mm dd yyyy
+            if (!DateTime.TryParseExact(checkInDate, "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dtCheckInDate))
+            {
+                return BadRequest(new ErrorModel()
+                {
+                    StatusCode = StatusCodes.Status400BadRequest,
+                    ErrorMessage = "Invalid CheckIn date format. valid format will  MM/dd/yyyy"
+                });
+            }
+            if (!DateTime.TryParseExact(checkOutDate, "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dtCheckOutDate))
+            {
+                return BadRequest(new ErrorModel()
+                {
+                    StatusCode = StatusCodes.Status400BadRequest,
+                    ErrorMessage = "Invalid CheckOut date format. valid format will  MM/dd/yyyy"
+                });
+            }
 
             var roomDetails = await _hotelRoomRepository.GetHotelRoom(roomId.Value);
             if (roomDetails == null)

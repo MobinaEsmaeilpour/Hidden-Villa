@@ -34,7 +34,7 @@
         <div class="col-12 col-md-5  offset-md-1 pl-2  pr-2 pr-md-0">
             <div class="form-group">
                 <label>Check In Date</label>
-                <InputDate min="@DateTime.Now.ToString("dd/MM/yyyy")" @bind-Value="HomeModel.startDate" type="text" class="form-control" />
+                <InputDate min="@DateTime.Now.ToString("MM/dd/yyyy")" @bind-Value="HomeModel.startDate" type="text" class="form-control" />
             </div>
         </div>
 
@@ -54,7 +54,7 @@
             <div class="form-group">
                 <label>&nbsp;</label>
 
-                <input type="submit" value="Go" class="btn btn-success btn-block" />
+                <input type="submit" value="Go" class="btn btn-success btn-block w-100" />
 
             </div>
         </div>
