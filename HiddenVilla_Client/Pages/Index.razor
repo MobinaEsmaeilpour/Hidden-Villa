@@ -34,14 +34,14 @@
         <div class="col-12 col-md-5  offset-md-1 pl-2  pr-2 pr-md-0">
             <div class="form-group">
                 <label>Check In Date</label>
-                <InputDate min="@DateTime.Now.ToString("MM/dd/yyyy")" @bind-Value="HomeModel.startDate" type="text" class="form-control" />
+                <InputDate min="@DateTime.Now.ToString("MM/dd/yyyy")" @bind-Value="HomeModel.StartDate" type="text" class="form-control" />
             </div>
         </div>
 
         <div class="col-8 col-md-3 pl-2 pr-2">
             <div class="form-group">
                 <label>No. of nights</label>
-                <select class="form-control" @bind="HomeModel.NoOFNights">
+                <select class="form-control" @bind="HomeModel.NoOfNights">
                     @for (var i = 1; i <= 10; i++)
                     {
                         <option value="@i">@i</option>
@@ -70,7 +70,7 @@
     {
         try
         {
-            HomeModel.EndDate = HomeModel.startDate.AddDays(HomeModel.NoOFNights);
+            HomeModel.EndDate = HomeModel.StartDate.AddDays(HomeModel.NoOfNights);
             await localstorage.SetItemAsync(SD.Local_InitialBooking, HomeModel);
             navigationManager.NavigateTo("hotel/rooms", true);
         }

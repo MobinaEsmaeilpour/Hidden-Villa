@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Models;
-using NHibernate.Cfg;
 using System.Collections.Generic;
 using System;
 using System.IdentityModel.Tokens.Jwt;
