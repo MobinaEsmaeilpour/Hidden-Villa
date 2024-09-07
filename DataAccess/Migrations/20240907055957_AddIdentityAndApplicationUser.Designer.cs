@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(AppilicationDbContext))]
-    [Migration("20240905160332_HotelAmenityToDb")]
-    partial class HotelAmenityToDb
+    [Migration("20240907055957_AddIdentityAndApplicationUser")]
+    partial class AddIdentityAndApplicationUser
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

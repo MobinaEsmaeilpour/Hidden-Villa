@@ -2,7 +2,7 @@
 
 namespace DataAccess.Migrations
 {
-    public partial class AddIDentityAndApplicationUser : Migration
+    public partial class AddIdentityAndApplicationUser : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

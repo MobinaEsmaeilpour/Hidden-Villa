@@ -19,11 +19,8 @@
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Description</th>
                     <th>Timming</th>
-                    <th>
-                        IconStyle
-                    </th>
+                    <th>Icon</th>
                     <th> Action </th>
                 </tr>
             </thead>
@@ -34,9 +31,8 @@
                     {
                         <tr>
                             <td>@amenity.Name</td>
-                            <td>@amenity.Description</td>
                             <td>@amenity.Timming</td>
-                            <td>@amenity.IconStyle</td>
+                            <td><i class="@amenity.IconStyle"></i></td>
                             <td>
                                 <NavLink href="@($"hotel-amenity/edit/{amenity.Id}")" class="btn btn-primary">Edit</NavLink>
                                 <button class="btn btn-danger" @onclick="()=>HandleDelete(amenity.Id)">Delete</button>
@@ -55,6 +51,7 @@
     </div>
 </div>
 <DeleteConfirimation IsParentComponentProcessing="IsProcessing" ConfirimationChanged="ConfirmDelete_Click"></DeleteConfirimation>
+
 @code {
     private IEnumerable<HotelAmenityDTO> HotelAmenities { get; set; } = new List<HotelAmenityDTO>();
     private int? DeleteamenityId { get; set; } = null;
