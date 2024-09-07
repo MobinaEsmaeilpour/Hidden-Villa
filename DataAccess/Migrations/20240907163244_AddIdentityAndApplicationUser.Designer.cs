@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(AppilicationDbContext))]
-    [Migration("20240907055957_AddIdentityAndApplicationUser")]
+    [Migration("20240907163244_AddIdentityAndApplicationUser")]
     partial class AddIdentityAndApplicationUser
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

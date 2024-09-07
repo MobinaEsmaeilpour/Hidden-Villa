@@ -7,7 +7,11 @@
 
 @if(isProcessing)
 {
-    <div class="spinner"></div>
+    <div id="app">
+        <div style="position:fixed;top:50%;left:50%;margin-top:-50px;margin-left:-100px;">
+            <img src="images/ajax-loader.gif" />
+        </div>
+    </div>
 }
 else
 {
@@ -83,7 +87,7 @@ else
                 <div class="col-md-4 col-6 p-4">
                     <div style="border: 1px solid #d5d5d5; border-radius:20px;">
                         <div class="row col-4 offset-4 p-4">
-                            <i class="@amenity.IconStyle fa-4x"></i>
+                            <i class="@(!string.IsNullOrEmpty(amenity.IconStyle) ? $"{amenity.IconStyle} fa-4x" : "fas fa-question-circle fa-4x")"></i>
                         </div>
                         <div class="text-center justify-content-center">
                             <h5 class="text-warning">@amenity.Name</h5>

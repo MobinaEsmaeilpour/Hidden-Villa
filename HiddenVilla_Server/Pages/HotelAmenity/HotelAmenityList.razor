@@ -32,7 +32,8 @@
                         <tr>
                             <td>@amenity.Name</td>
                             <td>@amenity.Timming</td>
-                            <td><i class="@amenity.IconStyle"></i></td>
+                            <td><i class="@(!string.IsNullOrEmpty(amenity.IconStyle) ? amenity.IconStyle : "fa fa-question-circle")"></i></td>
+
                             <td>
                                 <NavLink href="@($"hotel-amenity/edit/{amenity.Id}")" class="btn btn-primary">Edit</NavLink>
                                 <button class="btn btn-danger" @onclick="()=>HandleDelete(amenity.Id)">Delete</button>
