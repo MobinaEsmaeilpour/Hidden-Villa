@@ -1,9 +1,21 @@
 ﻿@page "/"
-@using HiddenVilla_Client.Model.ViewModel
+@using Blazored.LocalStorage
 @inject ILocalStorageService localstorage
 @inject IJSRuntime jsRuntime
 @inject NavigationManager navigationManager
-<div class="row p-0 m-0">
+@inject IHotelAmenitiesService hotelAmenitiesService
+
+@if(isProcessing)
+{
+    <div id="app">
+        <div style="position:fixed;top:50%;left:50%;margin-top:-50px;margin-left:-100px;">
+            <img src="images/ajax-loader.gif" />
+        </div>
+    </div>
+}
+else
+{
+    <div class="row p-0 m-0">
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -26,27 +38,27 @@
             <span class="sr-only">Next</span>
         </a>
     </div>
-</div>
+    </div>
 
-<EditForm Model="HomeModel" OnValidSubmit="SaveInitialDate">
+    <EditForm Model="HomeModel" OnValidSubmit="SaveInitialDate">
     <div class="row p-0 mx-0 mt-4">
 
         <div class="col-12 col-md-5  offset-md-1 pl-2  pr-2 pr-md-0">
             <div class="form-group">
                 <label>Check In Date</label>
-                <InputDate min="@DateTime.Now.ToString("dd/MM/yyyy")" @bind-Value="HomeModel.startDate" type="text" class="form-control"/>
+                <InputDate min="@DateTime.Now.ToString("MM/dd/yyyy")" @bind-Value="HomeModel.StartDate" type="text" class="form-control" />
             </div>
         </div>
 
         <div class="col-8 col-md-3 pl-2 pr-2">
             <div class="form-group">
                 <label>No. of nights</label>
-                <select class="form-control" @bind="HomeModel.NoOFNights">
+                <select class="form-control" @bind="HomeModel.NoOfNights">
                     @for (var i = 1; i <= 10; i++)
                     {
                         <option value="@i">@i</option>
                     }
-            </select>
+                </select>
             </div>
         </div>
 
@@ -54,30 +66,77 @@
             <div class="form-group">
                 <label>&nbsp;</label>
 
-                <input type="submit" value="Go" class="btn btn-success btn-block" />
+                <input type="submit" value="Go" class="btn btn-success btn-block w-100" />
 
             </div>
         </div>
 
     </div>
-</EditForm>
+    </EditForm>
+    <div class="container pt-4">
+        <div class="row">
+            <div class="col-md-8 offset-md-2 text-center">
+                <h2 class="text-warning" id="explore-amenity-header">Explore our Amenities</h2>
+                <p class="lead">Hidden Villa offers a large number of amenities for all patrons, some of which are listed below. </p>
+            </div>
+        </div>
+        <div class="row">
 
+            @foreach (var amenity in amenities)
+            {
+                <div class="col-md-4 col-6 p-4">
+                    <div style="border: 1px solid #d5d5d5; border-radius:20px;">
+                        <div class="row col-4 offset-4 p-4">
+                            <i class="@(!string.IsNullOrEmpty(amenity.IconStyle) ? $"{amenity.IconStyle} fa-4x" : "fas fa-question-circle fa-4x")"></i>
+                        </div>
+                        <div class="text-center justify-content-center">
+                            <h5 class="text-warning">@amenity.Name</h5>
+                            <p>@amenity.Description</p>
+                        </div>
+
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+}
 
 @code {
-    public HoemVM HomeModel = new HoemVM(); 
+    public HomeVM HomeModel = new HomeVM();
+    private bool isProcessing { get; set; } = false;
+
+    public IEnumerable<HotelAmenityDTO> amenities { get; set; } = new List<HotelAmenityDTO>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            isProcessing = true;
+            amenities = await hotelAmenitiesService.GetAllHotelAmenitiesAsync() ?? new List<HotelAmenityDTO>();
+            isProcessing = false;
+        }
+        catch (Exception ex)
+        {
+            await jsRuntime.ToasterError(ex.Message);
+            isProcessing = false;
+        }
+    }
+
 
     private async Task SaveInitialDate()
     {
         try
         {
-            HomeModel.EndDate = HomeModel.startDate.AddDays(HomeModel.NoOFNights);
+            HomeModel.EndDate = HomeModel.StartDate.AddDays(HomeModel.NoOfNights);
             await localstorage.SetItemAsync(SD.Local_InitialBooking, HomeModel);
             navigationManager.NavigateTo("hotel/rooms", true);
         }
-        catch(Exception e )
+        catch (Exception e)
         {
             await jsRuntime.ToasterError(e.Message);
         }
     }
 
 }
+

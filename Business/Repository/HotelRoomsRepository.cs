@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿//using AutoMapper;
 using Business.Repository.IRepository;
 using DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
@@ -16,11 +16,12 @@ namespace Business.Repository
     public class HotelRoomsRepository : IHotelRoomRepository
     {
         private readonly AppilicationDbContext _db;
-        private readonly IMapper _mapper;
+        //private readonly IMapper _mapper;
         //adding rooms for hotel
-        public HotelRoomsRepository(AppilicationDbContext db, IMapper mapper)
+        public HotelRoomsRepository(AppilicationDbContext db)
+            //IMapper mapper)
         {
-            _mapper = mapper;
+            //_mapper = mapper;
             _db = db; 
         }
         public async Task<HotelRoomDTO> CreateHotelRoom(HotelRoomDTO hotelRoomDTO)
@@ -97,7 +98,7 @@ namespace Business.Repository
         //        return null;
         //    }
         //}
-        public async Task<IEnumerable<HotelRoomDTO>> GetAllHotelRooms()
+        public async Task<IEnumerable<HotelRoomDTO>> GetAllHotelRooms(string checkInDateStr, string checkOutDatestr)
         {
             try
             {
@@ -125,7 +126,7 @@ namespace Business.Repository
         }
 
 
-        public async Task<HotelRoomDTO> GetHotelRoom(int roomId)
+        public async Task<HotelRoomDTO> GetHotelRoom(int roomId, string checkInDateStr, string checkOutDatestr)
         {
             try
             {

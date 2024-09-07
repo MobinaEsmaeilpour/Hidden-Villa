@@ -45,9 +45,10 @@ namespace HiddenVilla_Server.Service
             {
                 UserName = "admin@gmail.com",
                 Email = "admin@gmail.com",
-                EmailConfirmed = true
+                EmailConfirmed = true,
             }, "Admin123*").GetAwaiter().GetResult();
 
+            //We retrieve that user and assign it to admin
             IdentityUser user = _db.Users.FirstOrDefault(u => u.Email == "admin@gmail.com");
             _userManager.AddToRoleAsync(user, SD.Role_Admin).GetAwaiter().GetResult();
 
