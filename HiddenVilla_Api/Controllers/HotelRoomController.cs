@@ -58,9 +58,9 @@ namespace HiddenVilla_API.Controllers
 
 
         [HttpGet("{roomId}")]
-        public async Task<IActionResult> GetHotelRoomById(int? roomId, string checkIn = null, string checkOut = null)
+        public async Task<IActionResult> GetHotelRoomById(int? roomId, string checkInDate = null, string checkOutDate = null)
         {
-            if (string.IsNullOrEmpty(checkIn) || string.IsNullOrEmpty(checkOut))
+            if (string.IsNullOrEmpty(checkInDate) || string.IsNullOrEmpty(checkOutDate))
             {
                 return BadRequest(new ErrorModel()
                 {
@@ -70,7 +70,7 @@ namespace HiddenVilla_API.Controllers
             }
 
             
-            var roomDetails = await _hotelRoomRepository.GetHotelRoom(roomId.Value, checkIn, checkOut);
+            var roomDetails = await _hotelRoomRepository.GetHotelRoom(roomId.Value, checkInDate, checkOutDate);
 
             if (roomDetails == null)
             {
