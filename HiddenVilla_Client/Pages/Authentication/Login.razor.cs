@@ -22,7 +22,7 @@ namespace HiddenVilla_Client.Pages.Authentication
         public NavigationManager navigationManager { get; set; }
 
 
-        private async Task RegisterUser()
+        private async Task LoginUser()
         {
             ShowAuthenticationErrors = false;
             IsPRocessing = true;

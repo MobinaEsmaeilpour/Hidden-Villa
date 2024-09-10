@@ -30,5 +30,10 @@ namespace HiddenVilla_Client.Service
             _httpclient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
             return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(JwtParser.ParseClaimsFromJwt(token), "jwtAuthType")));
         }
+
+        public void NotifyUserLoggedIn(string email)
+        {
+
+        }
     }
 }

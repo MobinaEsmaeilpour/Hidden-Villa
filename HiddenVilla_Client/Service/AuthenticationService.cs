@@ -25,7 +25,7 @@ namespace HiddenVilla_Client.Service
         {
             var content = JsonConvert.SerializeObject(userFromAuthentication);
             var bodycontent = new StringContent(content, Encoding.UTF8, "application/json");
-            var response = await _client.PostAsync("api/account/sigin", bodycontent);
+            var response = await _client.PostAsync("api/account/signin", bodycontent);
             var contentTemp = await response.Content.ReadAsStringAsync();
             var resualt = JsonConvert.DeserializeObject<AuthenticationResponseDTO>(contentTemp); 
 
