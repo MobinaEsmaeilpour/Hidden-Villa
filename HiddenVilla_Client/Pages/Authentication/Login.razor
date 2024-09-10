@@ -1,0 +1,31 @@
+﻿@page "/login"
+
+<div id="logreg-forms" class="bg-dark border">
+    <h1 class="h3 mb-3 pt-3 font-weight-normal text-primary" style="text-align:center;">Sign In</h1>
+    <EditForm Model="userForAuthentication" OnValidSubmit="LoginUser">
+        <DataAnnotationsValidator />
+        @if(ShowAuthenticationErrors)
+        {
+            <p class="text-center text-danger">@Errors</p>
+        }
+
+        <InputText @bind-Value="userForAuthentication.UserName" id="email" placeholder="Email..." class="form-control mb-2" />
+        <ValidationMessage For="(()=>userForAuthentication.UserName)"></ValidationMessage>
+        <InputText @bind-Value="userForAuthentication.Password" type="password" placeholder="Password..." id="password" class="form-control mb-2" />
+        <ValidationMessage For="(()=>userForAuthentication.Password)"></ValidationMessage>
+
+        @if(IsPRocessing)
+        {
+            <button type="submit" class="btn btn-success btn-block disabled w-100"><i class="fas fa-sign-in-alt"></i> Please Wait...</button>
+
+        }
+        else
+        {
+            <button type="submit" class="btn btn-success btn-block w-100"><i class="fas fa-sign-in-alt"></i> Sign in</button>
+        }
+        <a href="/registration"
+           class="btn btn-primary text-white mt-3"><i class="fas fa-user-plus"></i> Register as a new user</a>
+
+    </EditForm>
+        
+</div>
